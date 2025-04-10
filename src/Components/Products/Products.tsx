@@ -1,7 +1,8 @@
 
+import { useEffect, useState } from 'react'
 import './products.css'
 
-import ProductsCard from './ProductsCard/ProductsCard'
+import ProductsCard, { ProductType } from './ProductsCard/ProductsCard'
 
 {/* Fetcheld be az adatokat a products jsonból és jelenítsd meg a products__container elemben*/}
 
@@ -12,7 +13,16 @@ import ProductsCard from './ProductsCard/ProductsCard'
 
 /* 767 px alatt 2rem a fölöt 3rem legyen a rész az elemek között */
 
+
 const Products = () => {
+
+  const [products, setProducts] = useState<ProductType[]>([]);
+
+  useEffect(() => {
+		fetch('products.json')
+		.then(res => res.json())
+		.then(data => setProducts(data))
+	}, [])
 
   return (
     <section className="products container" id="products">
@@ -21,7 +31,9 @@ const Products = () => {
     </h2>
 
     <div className="products__container">
-      
+      {
+					products.map(item => <ProductsCard {...item}/>)
+				}
     </div>
 </section>
   )
